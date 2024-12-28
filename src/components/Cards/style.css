@@ -1,0 +1,38 @@
+.my-card{
+    box-shadow: var(--shadow);
+    margin: 2rem;
+    border-radius: 0.5rem;
+    min-width: 400px;
+    /* padding: 0.2rem !important; */
+    font-family: "Montserrat", sans-serif;
+    flex: 1;
+}
+
+.my-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    margin: 2rem auto;
+    flex-wrap: wrap;
+    gap:16px;
+
+}    
+.my-card {
+    margin:1rem ;
+}
+/* 
+.ant-card-head-title{
+    margin: 0 !important;
+    font-weight: 600;
+    color: var(--theme);
+    
+} */
+
+
+.my-card h2{
+    margin: 0 !important;
+    font-weight: 600;
+    color: var(--theme);
+    
+}
