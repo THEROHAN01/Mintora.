@@ -5,6 +5,9 @@ import { useState } from 'react';
 import { Option } from 'antd/es/mentions';
 import { Radio } from 'antd';
 import searchImg from '../../assets/search.svg';
+import { unparse } from "papaparse";
+
+
 
 
 
@@ -56,6 +59,22 @@ function TransactionsTable({transactions}) {
             return 0;
         }
      }) ;
+
+
+     function exportCSV(){
+        var csv = unparse({
+            fields: ["name", "type","tag", "date","amount"],
+            data: transactions,
+        });
+        var blob = new Blob ([csv], {type:"text/csv;charset=utf-8"});
+        var url = URL.createObjectURL(blob);
+        const link= document.createElement("a");
+        link.href = url;
+        link.download = "transactions.csv";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
       
         return (
         <>
@@ -114,7 +133,7 @@ function TransactionsTable({transactions}) {
                 >
                     <Radio.Button value ="">No Sort</Radio.Button>
                     <Radio.Button value ="date">Sort by Date</Radio.Button>
-                    <Radio.Button value ="ammount">sort by Amount</Radio.Button>
+                    <Radio.Button value ="ammount">Sort by Amount</Radio.Button>
 
                 </Radio.Group>
 
@@ -126,9 +145,9 @@ function TransactionsTable({transactions}) {
                         width:"400px"
                     }}>
 
-                    <button className='btn'>
+                    <div onClick={exportCSV} className='btn'>
                         Export To CSV
-                    </button>
+                    </div>
                     <label for="file-csv" className='btn btn-blue'>
                         Import from CSV
                     </label>

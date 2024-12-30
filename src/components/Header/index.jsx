@@ -5,6 +5,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { signOut } from "firebase/auth";
+import userImg from "../../assets/user.svg"
 
 
 
@@ -45,8 +46,15 @@ function index() {
   return (
     <div className='navbar'>
       <p className='logo'>Mintora.</p>
+      
 
-      {user &&  <p className='logo link' onClick={logoutFnc}>Logout</p>}
+      {user && (
+        
+        <div style={{display:"flex", alignItem:"center", gap:"0.9rem"}}>
+        <img src={user.photoURL ? user.photoURL : userImg}  style={{borderRadius:"50%" ,height:"2rem", width:"2rem"}} />  
+        <p className='logo link' onClick={logoutFnc}>Logout</p>
+        </div>
+      )}
     </div>
   )
 }

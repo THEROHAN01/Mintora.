@@ -72,8 +72,11 @@ input {
   width: 30%;
   box-shadow: var(--shadow);
   border-radius: 0.5rem;
-  padding: 0rem 0.5rem;
+  padding: 0rem 0rem;
   outline: none;
   border: 0;
   border-color: #fff;
+}
+.select-input > div {
+  border: 0px solid #fff
 }
