@@ -58,7 +58,7 @@ function Dashboard() {
     // Get all the docs from a collection 
     fetchTransactions();
 
-  });
+  },[]);
 
   useEffect(() => {
     calculateBalance();
@@ -76,7 +76,9 @@ function Dashboard() {
       
         toast.success("Transaction Added!");
         // fetchTransactions();
-       
+           // Update the state directly instead of refetching
+    setTransactions((prev) => [...prev, transaction]);
+
       
     }catch(e){
       console.error("Error adding document: ", e);
@@ -88,7 +90,7 @@ function Dashboard() {
   
 
   async function fetchTransactions(){
-    // setLoading(true);
+    setLoading(true);
     if(user){
       const q = query(collection(db, `users/${user.uid}/transactions`));
       const querySnapshot = await getDocs(q);
@@ -99,7 +101,7 @@ function Dashboard() {
       });
       setTransactions(transactionsArray);
       console.log("Transactions Array", transactionsArray);
-      // toast.success("Transactions Fetched!");
+      toast.success("Transactions Fetched!");
     }
     setLoading(false);
   }

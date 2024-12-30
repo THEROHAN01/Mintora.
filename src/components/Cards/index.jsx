@@ -1,10 +1,10 @@
-// import React from "react";
+import React from "react";
 import "./style.css";
 import { Card, Row } from 'antd';
 import Button from '../Button';
 
 
-function Cards( { income , expenses , totalBalance ,  showExpenseModal , showIncomeModal } ) {
+function Cards( { income , expense , totalBalance ,  showExpenseModal , showIncomeModal } ) {
   return (
     <div>
       <Row className='my-row'>
@@ -21,7 +21,7 @@ function Cards( { income , expenses , totalBalance ,  showExpenseModal , showInc
          </Card>
          <Card className='my-card'>
          <h2>Total Expenses</h2>
-          <p>₹{expenses}</p>
+          <p>₹{expense}</p>
           <Button text = "Add Expenses" blue={true}onClick={showExpenseModal}/>
          </Card>
 
