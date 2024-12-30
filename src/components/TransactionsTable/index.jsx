@@ -3,12 +3,16 @@ import "./style.css";
 import { Select, Table } from 'antd';
 import { useState } from 'react';
 import { Option } from 'antd/es/mentions';
+import { Radio } from 'antd';
+import searchImg from '../../assets/search.svg';
 
 
 
 function TransactionsTable({transactions}) {
     const[search, setSearch] = useState("");
     const[typeFilter,setTypeFilter]= useState("");
+    const[sortKey,setsortKey] = useState("");
+
 
 
 
@@ -40,22 +44,49 @@ function TransactionsTable({transactions}) {
         }
         
      ];
+    
 
-     let filteredTransactions = transactions.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()));
-
-
+     let filteredTransactions = transactions.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()) && item.type.includes(typeFilter));
+     let sortedTransactions = filteredTransactions.sort((a,b) => {
+        if(sortKey === "date"){
+            return new Date(a.date) - new Date(b.date);
+        }else if(sortKey === "amount"){
+            return parseFloat(a.amount) - parseFloat(b.amount);
+        } else {
+            return 0;
+        }
+     }) ;
+      
         return (
         <>
+
+        <div 
+            style={{
+                width:"96%",
+                padding:"0rem 2rem"
+            }}>
+
+       
+
+        <div  style={{
+            display:"flex",
+            justifyContent:"space-between",
+            gap:"1rem",
+            alignItems:"center",
+            marginBottom:"1rem"
+        }}>
+        <div className='input-flex'>
+            <img src={searchImg} width="16"/>
+            <input
+                value = { search }
+                placeholder='Search by Name'
+                onChange={(e) => setSearch(e.target.value)}
+            />
+        </div>
         
-        <input 
-        className='input'
-        value = {search}
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder='Search by name'
-        />
         <Select
             className = "select-input"
-            onChange={(e) => setTypeFilter(value)}
+            onChange={(value) => setTypeFilter(value)}
             value = {typeFilter}
             placeholder = "Filter"
             allowClear
@@ -64,8 +95,59 @@ function TransactionsTable({transactions}) {
             <Option value="income">Income</Option>
             <Option value="expense">Expense</Option>
             </Select>    
-        <Table className='table' dataSource = { filteredTransactions } columns = { columns  } />
+        </div>    
+        <div className='my-table'>
+        <div
+            style={{
+                display:"flex",
+                justifyContent:"space-between",
+                alignItems:"center",
+                width:"100%",
+                marginBottom:"1rem"
+            }}
+            >
+            <h2 style={{color:"var(--theme)"}}> My Transactions</h2>    
+            <Radio.Group
+                className='input-radio'
+                onChange={(e) => setsortKey(e.target.value)}
+                value={sortKey}
+                >
+                    <Radio.Button value ="">No Sort</Radio.Button>
+                    <Radio.Button value ="date">Sort by Date</Radio.Button>
+                    <Radio.Button value ="ammount">sort by Amount</Radio.Button>
 
+                </Radio.Group>
+
+                <div 
+                    style={{
+                        display:"flex",
+                        justifyContent:"center",
+                        gap:"1rem",
+                        width:"400px"
+                    }}>
+
+                    <button className='btn'>
+                        Export To CSV
+                    </button>
+                    <label for="file-csv" className='btn btn-blue'>
+                        Import from CSV
+                    </label>
+                    <input 
+                        id="file-csv"
+                        type="file"
+                        accept='.csv'
+                        required
+                        style={{display:'none'}}
+                        />
+
+
+                </div>
+                </div>
+
+
+        <Table className='table' dataSource = { sortedTransactions } columns = { columns } />
+                    </div>
+            </div>
             </>
         );
 

@@ -4,7 +4,7 @@ import Cards from '../components/Cards';
 import { toast } from 'react-toastify';
 import { addDoc, collection, getDocs, query } from "firebase/firestore";
 import { auth, db } from "../firebase";
-import AddIncomeModal from '../components/Modals/addincome.jsx';
+import AddIncomeModal from '../components/Modals/addIncome.jsx';
 import AddExpenseModal from '../components/Modals/addExpense.jsx';
 import moment from "moment";
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -39,7 +39,7 @@ function Dashboard() {
   const onFinish = (values, type) => {
     const newTransaction = {
       type: type,
-      date: moment(values.date).format("YYYY-MM-DD"),
+      date: values.date.format("YYYY-MM-DD"),
       amount: parseFloat(values.amount),
       tag: values.tag,
       name: values.name,
